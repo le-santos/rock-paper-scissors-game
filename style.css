@@ -1,0 +1,13 @@
+* {
+    margin: 0;
+}
+
+body {
+    background-color: steelblue;
+}
+
+h1 {
+    color: #111311;
+    text-align: center;
+    padding: 100px 0;
+}
