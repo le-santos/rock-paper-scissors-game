@@ -8,76 +8,114 @@
     </head>
 
 <body>
-    <h1>Rock-Paper-Scissors</h1>
+    <h1>Rock Paper Scissors</h1>
+    <p class = "subtitle">Pick your option<br>Get 5 points to win!</p>
+
+    <div class="button-area">
+    <button type="button" id = "rock">rock</button>
+    <button type="button" id = "paper">paper</button>
+    <button type="button" id = "scissors">scissors</button>
+    </div>
+    
+    <div>
+        <p class="resultado"><span id = "resultado"></span> </p>  
+        <p class="placar"><span id = "userPoints"></span>   <span id = "pcPoints"></span> </p> 
+    </div>
+
+    <div>
+        <p id = "placar-final"></p>
+    </div>
 
    
 
     <script>
         //Generate computer random choice
-        var pcChoice
 
         function pcRandom() {
             let pcChoice
-            let random = Math.random();
+            let random = Math.random()*10;
                         
-            if (random < 0.33) {
+            if (random < 3.3) {
                 pcChoice = "rock";
-            } else if (random > 0.66) {
+            } else if (random > 6.6) {
                 pcChoice = "paper";
             } else { pcChoice = "scissors"
             }
             return pcChoice;
         }
-        pcRandom();
 
-        // Get user input and check if it is rock, paper or scissors
+        // Get user click option -- Setup dos buttons
 
-        var userChoice
+        document.getElementById("rock").addEventListener("click", getRock);
+        document.getElementById("paper").addEventListener("click", getPaper);
+        document.getElementById("scissors").addEventListener("click", getScissors);
 
-        function askUser() {
-            let userInput = false;
 
-            while (userInput == false) {
-                var userData = prompt("Choose your option: rock, paper or scissors?");
-                var userChoice = userData.toLowerCase();
-                if (userChoice == "rock" || userChoice == "paper" || userChoice == "scissors") {
-                userInput = true;
-                return userChoice;
-                } else { userInput = false;
-                alert("The options are: rock, paper or scissors. Pick yours!")
-                }
-            }
+        function getRock() {
+            let userClick = document.getElementById("rock").innerText;
+	        let pc = pcRandom();
+	        playRound(userClick, pc);
+}
+        
+        function getPaper(){
+            let userClick = document.getElementById("paper").innerText;
+            let pc = pcRandom();
+            playRound(userClick,pc);
         }
         
-        //Function that compares both inputs (pc and user) and alerts a result
+        function getScissors(){
+            let userClick = document.getElementById("scissors").innerText;
+            let pc = pcRandom();
+            playRound(userClick,pc);
+        }
+
+        //The game function - compare inputs (pc and user) and returns a result
         
+        let userPoints = 0;
+        let pcPoints = 0
 
         function playRound(A, B) {
-            let result
-            if (A == B) {
-                result = alert("Draw. No winner...");
-            } else if ((A == "paper" && B == "rock")||
-                        (A == "rock" && B == "scissors")||
-                        (A == "scissors" && B == "paper")) {
-                result = alert("You win: " + A + " beats " + B);
-            } else { result = alert("You lose: " + B + " beats " + A);
-        }
-        return result;
-        }
+				let result
+
+                if(userPoints == 5 || pcPoints == 5){
+                    userPoints = 0;
+                    pcPoints = 0;
+                    document.getElementById("placar-final").innerHTML ='';
+                }
+
+
+				if (A == B) {
+                    result = "Draw. No winner...";
+                } else if ((A == "paper" && B == "rock")||
+                            (A == "rock" && B == "scissors")||
+                            (A == "scissors" && B == "paper")) {
+                            result = "You win: " + A + " beats " + B;
+                            userPoints++;
+                } else { 
+                    result = "You lose: " + B + " beats " + A;
+                    pcPoints++;
+                }
+
+                document.getElementById("resultado").innerHTML = result;
+                document.getElementById("userPoints").innerHTML = "You: " + userPoints;
+                document.getElementById("pcPoints").innerHTML = "CPU: " + pcPoints;
+                
+                if(userPoints == 5){
+                    document.getElementById("placar-final").innerHTML = "You WIN!!";
+                    document.getElementById("placar-final").style.display = "block";
+                    document.getElementById("placar-final").style.backgroundColor = "lightseagreen";
+                } else if (pcPoints == 5){
+                    document.getElementById("placar-final").innerHTML = "L-O-S-E-R!";
+                    document.getElementById("placar-final").style.display = "block";
+                    document.getElementById("placar-final").style.backgroundColor = "crimson";
+                } else {
+                    document.getElementById("placar-final").style.display = "none";
+                }
+
+                return result
+                }
         
 
-        // Function that runs the game calling the previous declared functions
-
-
-        function game() {
-            for (let i = 0; i < 5 ; i++) {
-                let user = askUser();
-                let pc = pcRandom();
-                playRound(user,pc);
-            }
-        }
-        //Calling the final function
-        game();
 
 
     </script>
