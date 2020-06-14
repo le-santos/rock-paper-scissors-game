@@ -1,92 +1,92 @@
 * {
-    margin: 0;
-    font-family: 'Bungee', cursive;
+	margin: 0;
+	font-family: 'Bungee', cursive;
 }
 
 body {
-    background-color: rgb(188, 196, 202);
+	background-color: rgb(188, 196, 202);
 }
 
 h1 {
-    color: #111311;
-    text-align: center;
-    padding: 50px 0;
-    font-family: 'Bungee', cursive;
-    font-size: 32px;
-    background-color: burlywood;
+	color: #111311;
+	text-align: center;
+	padding: 50px 0;
+	font-family: 'Bungee', cursive;
+	font-size: 32px;
+	background-color: burlywood;
 }
 
 h2, p {
-    font-family: 'Bungee Shade', cursive;
-    text-align: center;
-    font-weight: normal;
-    font-size: 20px;
+	font-family: 'Bungee Shade', cursive;
+	text-align: center;
+	font-weight: normal;
+	font-size: 20px;
 }
 
 .subtitle {
-    padding: 50px 0;
+	padding: 50px 0;
 }
 
-#placar-final {
-    display: none;
-
+#final-score {
+	display: none;
 }
 
-div #placar-final {
-    margin: 20px 0;
-    padding: 40px 0;
-    font-size: 30px;
-    font-weight: 700px;
+div #final-score {
+	margin: 20px 0;
+	padding: 40px 0;
+	font-size: 30px;
+	font-weight: 700px;
 }
 
 /* Setup dos botoes */
 
 .button-area {
-    text-align: center;
-    padding-bottom: 20px;
-    display: block;
-    text-align: center;
+	text-align: center;
+	padding-bottom: 20px;
+	display: block;
+	text-align: center;
 }
 
 button {
-    color: #111311;
-    padding: 15px 30px;
-    margin: 0 15px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-
+	color: #111311;
+	padding: 15px 30px;
+	margin: 0 15px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
 }
 
 button:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
 button:active {
-    background-color: #3e8e41;
-    box-shadow: 0 4px rgb(90, 90, 90);
-    transform: translateY(4px);
-}  
+	background-color: #3e8e41;
+	box-shadow: 0 4px rgb(90, 90, 90);
+	transform: translateY(4px);
+}
 
+button:disabled,
+button[disabled] {
+	color: #666666;
+	cursor: not-allowed;
+}
 
 #rock {
-    background-color: gray;
-    box-shadow: 0 6px rgb(77, 76, 76);
-
+	background-color: gray;
+	box-shadow: 0 6px rgb(77, 76, 76);
 }
 
 #paper {
-    background-color:whitesmoke;
-    box-shadow: 0 6px rgb(85, 85, 85);
-
+	background-color:whitesmoke;
+	box-shadow: 0 6px rgb(85, 85, 85);
 }
 
 #scissors {
-    background-color: rgb(243, 119, 47);
-    box-shadow: 0 6px rgb(105, 55, 25)
-
+	background-color: rgb(243, 119, 47);
+	box-shadow: 0 6px rgb(105, 55, 25)
 }

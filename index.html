@@ -1,125 +1,143 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Rock-Paper-Scissors game in Javascript</title>
-        <link href="./style.css" type="text/css" rel="stylesheet">
-        <meta charset="utf-8">
+	<head>
+		<title>Rock-Paper-Scissors game in Javascript</title>
+		<link href="./style.css" type="text/css" rel="stylesheet">
+		<meta charset="utf-8">
+	</head>
+	<body onload="newGame()">
+		<h1>Rock Paper Scissors</h1>
+		<p class = "subtitle">
+			Pick your option<br>
+			Get <span id='span-max-game-points'></span> points to win!<br>
+			<button type="button" id="new-game">New Game</button>
+		</p>
 
-    </head>
+		<div class="button-area">
+			<button type="button" id="rock">rock</button>
+			<button type="button" id="paper">paper</button>
+			<button type="button" id="scissors">scissors</button>
+		</div>
 
-<body>
-    <h1>Rock Paper Scissors</h1>
-    <p class = "subtitle">Pick your option<br>Get 5 points to win!</p>
+		<div>
+			<p class="result-message">
+				<span id="result-message"></span>
+			</p>
+			<p class="score-area">
+				<span id="user-total-points"></span>
+				<span id="computer-total-points"></span>
+			</p>
+		</div>
 
-    <div class="button-area">
-    <button type="button" id = "rock">rock</button>
-    <button type="button" id = "paper">paper</button>
-    <button type="button" id = "scissors">scissors</button>
-    </div>
-    
-    <div>
-        <p class="resultado"><span id = "resultado"></span> </p>  
-        <p class="placar"><span id = "userPoints"></span>   <span id = "pcPoints"></span> </p> 
-    </div>
+		<div>
+			<p id="final-score"></p>
+		</div>
 
-    <div>
-        <p id = "placar-final"></p>
-    </div>
+		<script>
+			let userTotalPoints = 0;
+			let computerTotalPoints = 0
+			const maxGamePoints = 5;
+			const winnerCombinations = [
+				{ winner: 'paper', loser: 'rock' },
+				{ winner: 'rock', loser: 'scissors' },
+				{ winner: 'scissors', loser: 'paper' }
+			]
 
-   
+			document.getElementById("rock").addEventListener("click", playRound);
+			document.getElementById("paper").addEventListener("click", playRound);
+			document.getElementById("scissors").addEventListener("click", playRound);
+			document.getElementById("new-game").addEventListener("click", newGame);
 
-    <script>
-        //Generate computer random choice
+			function computerRandomChoice() {
+				let random = Math.random() * 10;
 
-        function pcRandom() {
-            let pcChoice
-            let random = Math.random()*10;
-                        
-            if (random < 3.3) {
-                pcChoice = "rock";
-            } else if (random > 6.6) {
-                pcChoice = "paper";
-            } else { pcChoice = "scissors"
-            }
-            return pcChoice;
-        }
+				if (random < 3.4) {
+					return "rock";
+				} else if (random < 6.7) {
+					return "paper";
+				} else {
+					return "scissors"
+				}
+			}
 
-        // Get user click option -- Setup dos buttons
+			function getPlayerChoice(event) {
+				if (event.target.textContent != "") {
+					return document.getElementById(event.target.textContent).innerText
+				}
+			}
 
-        document.getElementById("rock").addEventListener("click", getRock);
-        document.getElementById("paper").addEventListener("click", getPaper);
-        document.getElementById("scissors").addEventListener("click", getScissors);
+			function isWinnerCombination(winnerChoice, loserChoice) {
+				return winnerCombinations.some(function(combination) {
+					return combination.winner === winnerChoice && combination.loser === loserChoice
+				})
+			}
 
+			function didAnyoneWin() {
+				return userTotalPoints == maxGamePoints || computerTotalPoints == maxGamePoints
+			}
 
-        function getRock() {
-            let userClick = document.getElementById("rock").innerText;
-	        let pc = pcRandom();
-	        playRound(userClick, pc);
-}
-        
-        function getPaper(){
-            let userClick = document.getElementById("paper").innerText;
-            let pc = pcRandom();
-            playRound(userClick,pc);
-        }
-        
-        function getScissors(){
-            let userClick = document.getElementById("scissors").innerText;
-            let pc = pcRandom();
-            playRound(userClick,pc);
-        }
+			function newGame() {
+				userTotalPoints = 0;
+				computerTotalPoints = 0;
+				document.getElementById("final-score").innerHTML = '';
+				document.getElementById("final-score").style.display = "none";
+				document.getElementById("result-message").innerHTML = '';
+				document.getElementById("user-total-points").innerHTML = '';
+				document.getElementById("computer-total-points").innerHTML = '';
+				document.getElementById("span-max-game-points").textContent = maxGamePoints;
+				document.getElementById("rock").disabled = false;
+				document.getElementById("paper").disabled = false;
+				document.getElementById("scissors").disabled = false;
+			}
 
-        //The game function - compare inputs (pc and user) and returns a result
-        
-        let userPoints = 0;
-        let pcPoints = 0
+			function getRoundResult(humanPlayerChoice, computerPlayerChoice) {
+				if (humanPlayerChoice == computerPlayerChoice) {
+					return "Draw. No winner..."
+				} else if (isWinnerCombination(humanPlayerChoice, computerPlayerChoice)) {
+					userTotalPoints++
+					return "You win: " + humanPlayerChoice + " beats " + computerPlayerChoice
+				} else {
+					computerTotalPoints++
+					return "You lose: " + computerPlayerChoice + " beats " + humanPlayerChoice
+				}
+			}
 
-        function playRound(A, B) {
-				let result
+ 			function didAnyoneWin() {
+				return userTotalPoints == maxGamePoints || computerTotalPoints == maxGamePoints
+			}
 
-                if(userPoints == 5 || pcPoints == 5){
-                    userPoints = 0;
-                    pcPoints = 0;
-                    document.getElementById("placar-final").innerHTML ='';
-                }
+			function endGame() {
+				document.getElementById("rock").disabled = true;
+				document.getElementById("paper").disabled = true;
+				document.getElementById("scissors").disabled = true;
+			}
 
+			function displayGameResult() {
+				if (userTotalPoints == maxGamePoints) {
+					document.getElementById("final-score").innerHTML = "You WIN!!";
+					document.getElementById("final-score").style.display = "block";
+					document.getElementById("final-score").style.backgroundColor = "lightseagreen";
+				} else if (computerTotalPoints == maxGamePoints) {
+					document.getElementById("final-score").innerHTML = "L-O-S-E-R!";
+					document.getElementById("final-score").style.display = "block";
+					document.getElementById("final-score").style.backgroundColor = "crimson";
+				}
+			}
 
-				if (A == B) {
-                    result = "Draw. No winner...";
-                } else if ((A == "paper" && B == "rock")||
-                            (A == "rock" && B == "scissors")||
-                            (A == "scissors" && B == "paper")) {
-                            result = "You win: " + A + " beats " + B;
-                            userPoints++;
-                } else { 
-                    result = "You lose: " + B + " beats " + A;
-                    pcPoints++;
-                }
+			function playRound() {
+				const humanPlayerChoice = getPlayerChoice(event)
+				const computerPlayerChoice = computerRandomChoice()
+				const roundResultMessage = getRoundResult(humanPlayerChoice, computerPlayerChoice)
 
-                document.getElementById("resultado").innerHTML = result;
-                document.getElementById("userPoints").innerHTML = "You: " + userPoints;
-                document.getElementById("pcPoints").innerHTML = "CPU: " + pcPoints;
-                
-                if(userPoints == 5){
-                    document.getElementById("placar-final").innerHTML = "You WIN!!";
-                    document.getElementById("placar-final").style.display = "block";
-                    document.getElementById("placar-final").style.backgroundColor = "lightseagreen";
-                } else if (pcPoints == 5){
-                    document.getElementById("placar-final").innerHTML = "L-O-S-E-R!";
-                    document.getElementById("placar-final").style.display = "block";
-                    document.getElementById("placar-final").style.backgroundColor = "crimson";
-                } else {
-                    document.getElementById("placar-final").style.display = "none";
-                }
+				document.getElementById("result-message").innerHTML = roundResultMessage;
+				document.getElementById("user-total-points").innerHTML = "You: " + userTotalPoints;
+				document.getElementById("computer-total-points").innerHTML = "CPU: " + computerTotalPoints;
 
-                return result
-                }
-        
-
-
-
-    </script>
-</body>
-
-
+				if (didAnyoneWin()) {
+					displayGameResult()
+					endGame()
+				}
+			}
+		</script>
+  </body>
 </html>
