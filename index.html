@@ -35,7 +35,8 @@
 
 		<script>
 			let userTotalPoints = 0;
-			let computerTotalPoints = 0
+			let computerTotalPoints = 0;
+			let roundWinner = '';
 			const maxGamePoints = 5;
 			const winnerCombinations = [
 				{ winner: 'paper', loser: 'rock' },
@@ -79,6 +80,7 @@
 			function newGame() {
 				userTotalPoints = 0;
 				computerTotalPoints = 0;
+				roundWinner = '';
 				document.getElementById("final-score").innerHTML = '';
 				document.getElementById("final-score").style.display = "none";
 				document.getElementById("result-message").innerHTML = '';
@@ -90,15 +92,31 @@
 				document.getElementById("scissors").disabled = false;
 			}
 
+			function addWinnerPoint(winner) {
+				if (winner === 'human') {
+					userTotalPoints++
+				} else if (winner === 'computer') {
+					computerTotalPoints++
+				}
+			}
+
 			function getRoundResult(humanPlayerChoice, computerPlayerChoice) {
 				if (humanPlayerChoice == computerPlayerChoice) {
-					return "Draw. No winner..."
+					roundWinner = ''
 				} else if (isWinnerCombination(humanPlayerChoice, computerPlayerChoice)) {
-					userTotalPoints++
-					return "You win: " + humanPlayerChoice + " beats " + computerPlayerChoice
+					roundWinner = "human"
 				} else {
-					computerTotalPoints++
-					return "You lose: " + computerPlayerChoice + " beats " + humanPlayerChoice
+					roundWinner = "computer"
+				}
+			}
+
+			function getResultMessage(winner, human, computer) {
+				if (winner === '') {
+					return "Draw. No winner..."
+				} else if (winner === 'human') {
+					return "You win: " + human + " beats " + computer
+				} else {
+					return "You lose: " + computer + " beats " + human
 				}
 			}
 
@@ -127,9 +145,12 @@
 			function playRound() {
 				const humanPlayerChoice = getPlayerChoice(event)
 				const computerPlayerChoice = computerRandomChoice()
-				const roundResultMessage = getRoundResult(humanPlayerChoice, computerPlayerChoice)
-
-				document.getElementById("result-message").innerHTML = roundResultMessage;
+				const roundResult = getRoundResult(humanPlayerChoice, computerPlayerChoice)
+				const resultMessage = getResultMessage(roundWinner, humanPlayerChoice, computerPlayerChoice)
+				
+				addWinnerPoint(roundWinner)
+				
+				document.getElementById("result-message").innerHTML = resultMessage;
 				document.getElementById("user-total-points").innerHTML = "You: " + userTotalPoints;
 				document.getElementById("computer-total-points").innerHTML = "CPU: " + computerTotalPoints;
 
